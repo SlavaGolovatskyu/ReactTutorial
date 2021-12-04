@@ -1,8 +1,8 @@
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import WebFontLoader from 'webfontloader';
-import App from './tutorial_2/App';
-import './css/index.css';
+import App from './tutorial-4/App';
+// import './css/index.css';
 
 WebFontLoader.load({
   google: {
