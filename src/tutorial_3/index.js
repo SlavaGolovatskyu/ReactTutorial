@@ -1,4 +1,4 @@
-let tasks = [];
+let tasks = ['Привет мир'];
 
 function render() {
   let ul = document.querySelector('ul');
@@ -52,3 +52,5 @@ function removeAllChild(selector) {
 function clearTask() {
   document.querySelector('#task').value = '';
 }
+
+document.addEventListener('DOMContentLoaded', render);
