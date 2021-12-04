@@ -2,24 +2,25 @@ import React from 'react';
 import './style.css';
 
 const Form = () => {
+  let email, password;
+
   const handleChangeData = (event) => {
     const name = event.target.name;
     const value = event.target.value;
 
     if (name === 'email') {
-      let email = value;
-    } else {
-      let password = value;
+      email = value;
+    } else if (name === 'password') {
+      password = value;
     }
-    console.log(value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let email = event.target.email.value;
-    let password = event.target.password.value;
+    email = event.target.email.value;
+    password = event.target.password.value;
 
-    if (!email.length || !password.length) {
+    if (!email.trim().length || !password.trim().length) {
       alert('Заполните все поля.');
     } else {
       console.log({ email, password });
