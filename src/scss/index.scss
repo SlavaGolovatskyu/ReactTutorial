@@ -1,0 +1,24 @@
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1000px;
+
+  .article {
+    p {
+      font-size: 40px;
+      font-weight: 800;
+    }
+
+    button {
+      font-size: 30px;
+      background-color: blue;
+      color: white;
+
+      &:hover {
+        background: rgb(27, 190, 141);
+        color: black;
+      }
+    }
+  }
+}

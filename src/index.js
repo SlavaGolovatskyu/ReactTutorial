@@ -1,7 +1,7 @@
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import WebFontLoader from 'webfontloader';
-import App from './tutorial-4/App';
+import App from './scss/App';
 // import './css/index.css';
 
 WebFontLoader.load({
