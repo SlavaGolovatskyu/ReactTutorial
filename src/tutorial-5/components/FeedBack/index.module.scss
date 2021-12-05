@@ -1,0 +1,15 @@
+.block {
+  width: 100%;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    border-radius: 15px;
+    background-color: #fff;
+
+    h2 {
+      padding: 10px 0 15px 15px;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.block {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid white;
+  border-radius: 5px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: #ffffff;
+  word-wrap: break-word;
+
+  h2 {
+    padding-top: 15px;
+    padding-left: 20px;
+    font-weight: 500;
+  }
+}
