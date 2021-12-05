@@ -18,8 +18,6 @@ function render() {
 
     ul.appendChild(li);
     li.appendChild(btn);
-
-    clearTask();
   });
 }
 
@@ -30,15 +28,13 @@ function handleClickAdd() {
     alert('Введите задание');
   } else {
     tasks.push(msg);
+    clearInput();
     render();
   }
 }
 
 function handleClickRemove(index) {
-  const newTasks = tasks.filter((_, i) => {
-    if (index !== i) return true;
-    else return false;
-  });
+  const newTasks = tasks.filter((_, i) => index !== i);
   tasks = newTasks;
   render();
 }
@@ -49,7 +45,7 @@ function removeAllChild(selector) {
   }
 }
 
-function clearTask() {
+function clearInput() {
   document.querySelector('#task').value = '';
 }
 
