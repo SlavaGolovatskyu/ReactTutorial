@@ -11,6 +11,14 @@ const style = {
 };
 
 export default function FeedBack({ addCommentHandler }) {
+  let dtFormat = new Intl.DateTimeFormat('ru-RU', {
+    month: 'long',
+    day: '2-digit',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  });
+
   const handleOnSubmit = (event) => {
     event.preventDefault();
     let name = event.target.name.value;
@@ -20,14 +28,6 @@ export default function FeedBack({ addCommentHandler }) {
     if (!name.trim().length || !email.trim().length || !text.trim().length) {
       alert('Введите все данный.');
     } else {
-      let dtFormat = new Intl.DateTimeFormat('ru-RU', {
-        month: 'long',
-        day: '2-digit',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-      });
-
       let new_comment = {
         id: nanoid(),
         fullName: name,
