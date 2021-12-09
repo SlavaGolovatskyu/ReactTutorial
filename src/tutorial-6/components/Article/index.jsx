@@ -1,4 +1,8 @@
-export default function Article({ id }) {
+import { Link, useParams } from 'react-router-dom';
+
+export default function Article() {
+  const { id } = useParams();
+
   return (
     <div>
       <h1>Статья №{id}</h1>
@@ -8,9 +12,9 @@ export default function Article({ id }) {
         dignissimos non minima quia amet possimus? Impedit nemo ducimus fuga
         rem!
       </p>
-      <a href="/">
+      <Link to="/">
         <button>Назад</button>
-      </a>
+      </Link>
     </div>
   );
 }

@@ -1,50 +1,54 @@
-import { Nav, Row, Col, Card } from 'react-bootstrap';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Article from './components/Article';
+import Header from './components/Header';
+import { Home } from './pages/Home';
+import About from './pages/About';
 import './style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function App() {
-  const { pathname } = window.location;
-
-  const postId = pathname.split('/')[2];
+function ProtectedRoute({ children, path }) {
+  const token = window.localStorage.getItem('token');
 
   return (
+    <Route
+      path={path}
+      render={() => {
+        if (token) {
+          return children;
+        } else {
+          return <Redirect to="/" />;
+        }
+      }}
+    />
+  );
+}
+
+export default function App() {
+  return (
     <div className="App">
-      <header>
-        <h2>
-          <a href="/">React Blog</a>
-        </h2>
-        <Nav variant="pills" defaultActiveKey="/">
-          <Nav.Item>
-            <Nav.Link eventKey="/home" to="/">
-              Главная
-            </Nav.Link>
-          </Nav.Item>
-        </Nav>
-      </header>
-      {pathname === '/' && (
-        <Row xs={1} md={3} className="g-4">
-          <Col>
-            <Card>
-              <Card.Img
-                variant="top"
-                src="https://via.placeholder.com/150x150"
-              />
-              <Card.Body>
-                <Card.Title>
-                  <a href="/post/1">Card title</a>
-                </Card.Title>
-                <Card.Text>
-                  This is a longer card with supporting text below as a natural
-                  lead-in to additional content. This content is a little bit
-                  longer.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      )}
-      {pathname === `/post/${postId}` && <Article id={postId} />}
+      <Header />
+
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+
+        <Route path="/about">
+          <About />
+        </Route>
+
+        <Route path="/post/:id" exact>
+          <Article />
+        </Route>
+
+        <ProtectedRoute path="/profile">
+          <h2>Это защищеная страница</h2>
+        </ProtectedRoute>
+
+        <Route>
+          <h1 style={{ textAlign: 'center' }}>Cтраница не найдена</h1>
+        </Route>
+      </Switch>
     </div>
   );
 }

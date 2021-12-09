@@ -1,4 +1,5 @@
 import React, { StrictMode } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import WebFontLoader from 'webfontloader';
 import App from './tutorial-6/App';
@@ -12,7 +13,9 @@ WebFontLoader.load({
 
 ReactDOM.render(
   <StrictMode>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </StrictMode>,
   document.getElementById('root')
 );
