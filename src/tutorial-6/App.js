@@ -1,4 +1,4 @@
-import RegistrationForm from './components/Forms/Login';
+import RegistrationForm from './components/Forms/Login/testHookForms';
 import styles from './style.module.scss';
 
 export default function App() {
