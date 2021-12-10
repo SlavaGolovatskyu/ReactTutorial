@@ -75,6 +75,8 @@ export default function RegistrationForm() {
           type="password"
           {...register('password', {
             required: 'Это обьязательное поле!',
+            minLength: 6,
+            maxLength: 20,
           })}
           helperText={
             formState.errors.password && formState.errors.password.message
@@ -94,7 +96,7 @@ export default function RegistrationForm() {
           Зарегистрироваться
         </Button>
         <Button
-          onClick={reset}
+          onClick={() => reset()}
           variant="contained"
           color="secondary"
           sx={textFieldStyle}
