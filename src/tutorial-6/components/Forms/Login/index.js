@@ -6,7 +6,7 @@ const textFieldStyle = {
   margin: '0 15px !important',
 };
 
-export default function RegistrationForm() {
+function RegistrationForm() {
   const [fields, setFields] = React.useState({
     firstName: '',
     lastName: '',
