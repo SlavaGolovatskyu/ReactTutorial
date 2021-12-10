@@ -8,13 +8,22 @@ const textFieldStyle = {
 };
 
 export default function RegistrationForm() {
-  const { handleSubmit, register, formState } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const { handleSubmit, register, formState, reset } = useForm({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    },
+  });
 
-  console.log(formState.errors);
+  const onSubmit = (data) => {
+    console.log(data);
+    reset();
+  };
 
   return (
-    <>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.row}>
         <TextField
           name="firstName"
@@ -77,17 +86,22 @@ export default function RegistrationForm() {
       </div>
       <div className={styles.row}>
         <Button
-          onClick={handleSubmit(onSubmit)}
+          type="submit"
           variant="contained"
           color="primary"
           sx={textFieldStyle}
         >
           Зарегистрироваться
         </Button>
-        <Button variant="contained" color="secondary" sx={textFieldStyle}>
+        <Button
+          onClick={reset}
+          variant="contained"
+          color="secondary"
+          sx={textFieldStyle}
+        >
           Очистить
         </Button>
       </div>
-    </>
+    </form>
   );
 }
