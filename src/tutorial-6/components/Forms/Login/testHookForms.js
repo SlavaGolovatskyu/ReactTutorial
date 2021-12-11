@@ -1,11 +1,29 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { TextField, Button } from '@mui/material';
 import styles from './style.module.scss';
 
 const textFieldStyle = {
   margin: '0 15px !important',
 };
+
+const schema = yup.object().shape({
+  firstName: yup
+    .string()
+    .required('Это обьязательно поле!')
+    .min(2, 'Слишком короткое имя'),
+  lastName: yup
+    .string()
+    .required('Это обьязательно поле!')
+    .min(3, 'Слишком короткая фамилия'),
+  email: yup
+    .string()
+    .required('Это обьязательно поле!')
+    .email('Неверная почта'),
+  password: yup.string().required('Это обьязательно поле!').min(6).max(20),
+});
 
 export default function RegistrationForm() {
   const { handleSubmit, register, formState, reset } = useForm({
@@ -15,6 +33,7 @@ export default function RegistrationForm() {
       email: '',
       password: '',
     },
+    resolver: yupResolver(schema),
   });
 
   const onSubmit = (data) => {
@@ -28,9 +47,7 @@ export default function RegistrationForm() {
         <TextField
           name="firstName"
           label="Имя"
-          {...register('firstName', {
-            required: 'Это обьязательное поле!',
-          })}
+          {...register('firstName')}
           helperText={
             formState.errors.firstName && formState.errors.firstName.message
           }
@@ -41,9 +58,7 @@ export default function RegistrationForm() {
         <TextField
           name="lastName"
           label="Фамилия"
-          {...register('lastName', {
-            required: 'Это обьязательное поле!',
-          })}
+          {...register('lastName')}
           helperText={
             formState.errors.lastName && formState.errors.lastName.message
           }
@@ -56,14 +71,7 @@ export default function RegistrationForm() {
         <TextField
           name="email"
           label="Email"
-          {...register('email', {
-            required: 'Это обьязательное поле!',
-            pattern: {
-              value:
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-              message: 'Please enter a valid email',
-            },
-          })}
+          {...register('email')}
           helperText={formState.errors.email && formState.errors.email.message}
           error={!!formState.errors.email}
           fullWidth
@@ -73,9 +81,7 @@ export default function RegistrationForm() {
           name="password"
           label="Пароль"
           type="password"
-          {...register('password', {
-            required: 'Это обьязательное поле!',
-          })}
+          {...register('password')}
           helperText={
             formState.errors.password && formState.errors.password.message
           }
@@ -94,7 +100,7 @@ export default function RegistrationForm() {
           Зарегистрироваться
         </Button>
         <Button
-          onClick={reset}
+          onClick={() => reset()}
           variant="contained"
           color="secondary"
           sx={textFieldStyle}
