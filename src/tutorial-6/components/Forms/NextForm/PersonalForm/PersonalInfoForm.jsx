@@ -37,8 +37,8 @@ export default function PersonalInfoForm({ nextStep, setFormValues }) {
   });
 
   const onSubmit = (data) => {
-    setFormValues(prev => {
-      return {...prev, ...data}
+    setFormValues((prev) => {
+      return { ...prev, ...data };
     });
     nextStep('/address');
   };
@@ -93,7 +93,7 @@ export default function PersonalInfoForm({ nextStep, setFormValues }) {
         />
       </div>
       <div className={styles.row}>
-      <Button
+        <Button
           onClick={() => reset()}
           variant="contained"
           color="error"
@@ -112,5 +112,5 @@ export default function PersonalInfoForm({ nextStep, setFormValues }) {
         </Button>
       </div>
     </>
-  )
+  );
 }
