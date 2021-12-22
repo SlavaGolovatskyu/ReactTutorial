@@ -1,10 +1,6 @@
 import styles from '../App.module.scss';
 
 export const UserBlock = ({ user }) => {
-  if (user === 404) {
-    return <h2>Человек не найден</h2>;
-  }
-
   return (
     <div className={styles.UserBlock}>
       <div className={styles.MainInfo}>

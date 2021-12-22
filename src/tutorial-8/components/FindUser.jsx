@@ -2,30 +2,30 @@ import React from 'react';
 import axios from 'axios';
 import styles from '../App.module.scss';
 
-export const FindUser = ({ setUserData }) => {
-  const [isSearchBtnActive, setIsSearchBtnActive] = React.useState(false);
+export const FindUser = ({ setUserData, notFound }) => {
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const findUser = async (event) => {
+    const { value } = event.target.username;
+    const url = `https://api.github.com/users/${value}`;
+    setIsLoading(true);
+
     event.preventDefault();
 
-    const { value } = event.target.username;
-    setIsSearchBtnActive(true);
-
-    const url = `https://api.github.com/users/${value}`;
-
     try {
-      const response = await axios.get(url);
-      const { data } = response;
+      const { data } = await axios.get(url);
       setUserData(data);
+      notFound(false);
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        setUserData(404);
+        setUserData(null);
+        notFound(true);
       } else {
         alert(e);
       }
     }
 
-    setIsSearchBtnActive(false);
+    setIsLoading(false);
   };
 
   return (
@@ -35,7 +35,7 @@ export const FindUser = ({ setUserData }) => {
         placeholder="Укажите GitHub-аккаунт"
         className={styles.seacrh}
       />
-      <button disabled={isSearchBtnActive} className={styles.btn}>
+      <button disabled={isLoading} className={styles.btn}>
         Найти
       </button>
     </form>
