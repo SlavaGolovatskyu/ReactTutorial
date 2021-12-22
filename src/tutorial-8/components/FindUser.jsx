@@ -2,34 +2,30 @@ import React from 'react';
 import axios from 'axios';
 import styles from '../App.module.scss';
 
-export const FindUser = ({ setUser }) => {
+export const FindUser = ({ setUserData }) => {
   const [isSearchBtnActive, setIsSearchBtnActive] = React.useState(false);
 
   const findUser = async (event) => {
     event.preventDefault();
 
     const { value } = event.target.username;
-    setIsSearchBtnActive((prev) => !prev);
+    setIsSearchBtnActive(true);
 
     const url = `https://api.github.com/users/${value}`;
 
     try {
-      let response = await axios.get(url);
-
-      if (response.status === 200) {
-        setUser(response.data);
-      } else {
-        throw new Error('Не удалось получить данные');
-      }
+      const response = await axios.get(url);
+      const { data } = response;
+      setUserData(data);
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        setUser(404);
+        setUserData(404);
       } else {
         alert(e);
       }
     }
 
-    setIsSearchBtnActive((prev) => !prev);
+    setIsSearchBtnActive(false);
   };
 
   return (

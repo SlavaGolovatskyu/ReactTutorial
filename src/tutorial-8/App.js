@@ -6,10 +6,14 @@ import styles from './App.module.scss';
 const App = () => {
   const [user, setUser] = React.useState('');
 
+  const setUserData = (data) => {
+    setUser(data);
+  };
+
   return (
     <div className={styles.App}>
-      <FindUser setUser={setUser} />
-      {user ? <UserBlock user={user} /> : null}
+      <FindUser setUserData={setUserData} />
+      {user && <UserBlock user={user} />}
     </div>
   );
 };
