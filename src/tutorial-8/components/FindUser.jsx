@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import styles from '../App.module.scss';
 
-export const FindUser = ({ setUserData, notFound }) => {
+export const FindUser = ({ setUserData }) => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const findUser = async (event) => {
@@ -14,12 +14,10 @@ export const FindUser = ({ setUserData, notFound }) => {
 
     try {
       const { data } = await axios.get(url);
-      setUserData(data);
-      notFound(false);
+      setUserData({ ...data, notFound: false });
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        setUserData(null);
-        notFound(true);
+        setUserData({ notFound: true });
       } else {
         alert(e);
       }
