@@ -6,7 +6,13 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-export const Item = ({ text, completed, removeTask, toggleCheckbox }) => {
+export const Item = ({
+  text,
+  completed,
+  removeTask,
+  toggleCheckbox,
+  editText,
+}) => {
   return (
     <ListItem>
       <div className="d-flex item">
@@ -18,7 +24,7 @@ export const Item = ({ text, completed, removeTask, toggleCheckbox }) => {
         />
         <Typography className="item-text">{text}</Typography>
         <div className="item-buttons d-flex">
-          <IconButton>
+          <IconButton onClick={editText}>
             <EditIcon style={{ fontSize: 20 }} />
           </IconButton>
           <IconButton onClick={removeTask}>

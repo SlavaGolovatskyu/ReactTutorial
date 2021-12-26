@@ -65,6 +65,19 @@ function App() {
     });
   };
 
+  const editTaskName = (id) => {
+    const newText = prompt('Хотите изменить название?', '');
+
+    if (newText.trim()) {
+      dispatch({
+        type: 'EDIT_TASK_NAME',
+        payload: { id: id, newName: newText },
+      });
+    } else {
+      alert('Вы ничего не написали');
+    }
+  };
+
   return (
     <div className="App">
       <Paper className="wrapper">
@@ -88,16 +101,19 @@ function App() {
                 completed={obj.complete}
                 removeTask={() => removeTask(obj.id)}
                 toggleCheckbox={() => toggleChecked(obj.id)}
+                editText={() => editTaskName(obj.id)}
               />
             );
           })}
         </List>
         <Divider />
         <div className="check-buttons">
-          <Button onClick={onClickChangeComplete}>
+          <Button disabled={!state.length} onClick={onClickChangeComplete}>
             {allTasksComplete ? 'Снять отметки' : 'Отметить все'}
           </Button>
-          <Button onClick={onClickDeleteAll}>Очистить</Button>
+          <Button disabled={!state.length} onClick={onClickDeleteAll}>
+            Очистить
+          </Button>
         </div>
       </Paper>
     </div>
