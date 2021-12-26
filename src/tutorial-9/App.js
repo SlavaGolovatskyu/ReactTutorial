@@ -8,7 +8,17 @@ function App() {
   const [state, dispatch] = React.useReducer(reducer, []);
   const [allTasksComplete, setAllTasksComplete] = React.useState(false);
   const [currentChoiceTasks, setCurrentChoiceTasks] = React.useState(0);
-  const [currentTasks, setCurrentTasks] = React.useState([]);
+
+  const tasks = state.filter((obj) => {
+    if (currentChoiceTasks === 2 && obj.complete) {
+      return obj;
+    } else if (currentChoiceTasks === 1 && !obj.complete) {
+      return obj;
+    } else if (currentChoiceTasks === 0) {
+      return true;
+    }
+    return false;
+  });
 
   const addTask = (text, isComplete) => {
     if (!text.trim()) {
@@ -55,24 +65,6 @@ function App() {
     });
   };
 
-  React.useEffect(() => {
-    if (currentChoiceTasks === 0) {
-      setCurrentTasks(state);
-      return;
-    }
-
-    const tasks = state.filter((obj) => {
-      if (currentChoiceTasks === 2 && obj.complete) {
-        return obj;
-      } else if (currentChoiceTasks === 1 && !obj.complete) {
-        return obj;
-      }
-      return false;
-    });
-
-    setCurrentTasks(tasks);
-  }, [state, currentChoiceTasks]);
-
   return (
     <div className="App">
       <Paper className="wrapper">
@@ -88,18 +80,17 @@ function App() {
         </Tabs>
         <Divider />
         <List>
-          {!!currentTasks.length &&
-            currentTasks.map((obj) => {
-              return (
-                <Item
-                  key={obj.id}
-                  text={obj.name}
-                  completed={obj.complete}
-                  removeTask={() => removeTask(obj.id)}
-                  toggleCheckbox={() => toggleChecked(obj.id)}
-                />
-              );
-            })}
+          {tasks.map((obj) => {
+            return (
+              <Item
+                key={obj.id}
+                text={obj.name}
+                completed={obj.complete}
+                removeTask={() => removeTask(obj.id)}
+                toggleCheckbox={() => toggleChecked(obj.id)}
+              />
+            );
+          })}
         </List>
         <Divider />
         <div className="check-buttons">
