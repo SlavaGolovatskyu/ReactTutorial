@@ -15,6 +15,28 @@ export function reducer(state, action) {
     case 'REMOVE_TASK':
       return state.filter((obj) => obj.id !== action.payload);
 
+    case 'REMOVE_ALL_TASKS':
+      return [];
+
+    case 'TOGGLE_CHECKED':
+      return state.map((obj) => {
+        if (obj.id === action.payload) {
+          return {
+            ...obj,
+            complete: !obj.complete,
+          };
+        }
+        return obj;
+      });
+
+    case 'CHANGE_COMPLETE':
+      return state.map((obj) => {
+        return {
+          ...obj,
+          complete: action.payload,
+        };
+      });
+
     default:
       return state;
   }

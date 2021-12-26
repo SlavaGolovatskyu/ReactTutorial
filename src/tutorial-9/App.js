@@ -6,9 +6,12 @@ import { Item } from './components/Item';
 
 function App() {
   const [state, dispatch] = React.useReducer(reducer, []);
+  const [allTasksComplete, setAllTasksComplete] = React.useState(false);
+  const [currentChoiceTasks, setCurrentChoiceTasks] = React.useState(0);
+  const [currentTasks, setCurrentTasks] = React.useState([]);
 
   const addTask = (text, isComplete) => {
-    if (!text.trim().length) {
+    if (!text.trim()) {
       alert('Введите название задачи.');
     } else {
       dispatch({
@@ -27,6 +30,49 @@ function App() {
     }
   };
 
+  const onClickDeleteAll = () => {
+    dispatch({
+      type: 'REMOVE_ALL_TASKS',
+    });
+  };
+
+  const onClickChangeComplete = () => {
+    const isAllComplete = state.every((obj) => obj.complete);
+    const complete = isAllComplete ? false : allTasksComplete ? false : true;
+
+    dispatch({
+      type: 'CHANGE_COMPLETE',
+      payload: complete,
+    });
+
+    setAllTasksComplete(complete);
+  };
+
+  const toggleChecked = (id) => {
+    dispatch({
+      type: 'TOGGLE_CHECKED',
+      payload: id,
+    });
+  };
+
+  React.useEffect(() => {
+    if (currentChoiceTasks === 0) {
+      setCurrentTasks(state);
+      return;
+    }
+
+    const tasks = state.filter((obj) => {
+      if (currentChoiceTasks === 2 && obj.complete) {
+        return obj;
+      } else if (currentChoiceTasks === 1 && !obj.complete) {
+        return obj;
+      }
+      return false;
+    });
+
+    setCurrentTasks(tasks);
+  }, [state, currentChoiceTasks]);
+
   return (
     <div className="App">
       <Paper className="wrapper">
@@ -35,29 +81,32 @@ function App() {
         </Paper>
         <AddField addTask={addTask} />
         <Divider />
-        <Tabs value={0}>
-          <Tab label="Все" />
-          <Tab label="Активные" />
-          <Tab label="Завершённые" />
+        <Tabs value={currentChoiceTasks}>
+          <Tab label="Все" onClick={() => setCurrentChoiceTasks(0)} />
+          <Tab label="Активные" onClick={() => setCurrentChoiceTasks(1)} />
+          <Tab label="Завершённые" onClick={() => setCurrentChoiceTasks(2)} />
         </Tabs>
         <Divider />
         <List>
-          {state.map((obj) => {
-            return (
-              <Item
-                key={obj.id}
-                text={obj.name}
-                completed={obj.complete}
-                removeTask={removeTask}
-                id={obj.id}
-              />
-            );
-          })}
+          {!!currentTasks.length &&
+            currentTasks.map((obj) => {
+              return (
+                <Item
+                  key={obj.id}
+                  text={obj.name}
+                  completed={obj.complete}
+                  removeTask={() => removeTask(obj.id)}
+                  toggleCheckbox={() => toggleChecked(obj.id)}
+                />
+              );
+            })}
         </List>
         <Divider />
         <div className="check-buttons">
-          <Button>Отметить всё</Button>
-          <Button>Очистить</Button>
+          <Button onClick={onClickChangeComplete}>
+            {allTasksComplete ? 'Снять отметки' : 'Отметить все'}
+          </Button>
+          <Button onClick={onClickDeleteAll}>Очистить</Button>
         </div>
       </Paper>
     </div>
