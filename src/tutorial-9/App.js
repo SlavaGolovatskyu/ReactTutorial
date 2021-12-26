@@ -5,33 +5,24 @@ import { AddField } from './components/AddField';
 import { Item } from './components/Item';
 
 function App() {
-  const [state, dispatch] = React.useReducer(reducer, {
-    taskName: '',
-    taskComplete: false,
-    tasks: [],
-  });
+  const [state, dispatch] = React.useReducer(reducer, []);
 
-  const onChangeInput = (e) => {
-    dispatch({
-      type: 'ON_CHANGE_INPUT',
-      payload: e.target.value,
-    });
-  };
-
-  const onChangeCheckbox = () => {
-    dispatch({
-      type: 'TASK_COMPLETE',
-      payload: !state.taskComplete,
-    });
-  };
-
-  const addTask = () => {
-    if (!state.taskName) {
+  const addTask = (text, isComplete) => {
+    if (!text.trim().length) {
       alert('Введите название задачи.');
     } else {
       dispatch({
         type: 'ADD_TASK',
-        payload: { taskName: state.taskName, taskComplete: state.taskComplete },
+        payload: { text: text, complete: isComplete },
+      });
+    }
+  };
+
+  const removeTask = (id) => {
+    if (window.confirm('Вы действительно хотите удалить задание? ')) {
+      dispatch({
+        type: 'REMOVE_TASK',
+        payload: id,
       });
     }
   };
@@ -42,13 +33,7 @@ function App() {
         <Paper className="header" elevation={0}>
           <h4>Список задач</h4>
         </Paper>
-        <AddField
-          onChangeInput={onChangeInput}
-          onChangeCheckBox={onChangeCheckbox}
-          inputValue={state.taskName}
-          checkBoxValue={state.taskComplete}
-          addTask={addTask}
-        />
+        <AddField addTask={addTask} />
         <Divider />
         <Tabs value={0}>
           <Tab label="Все" />
@@ -57,12 +42,14 @@ function App() {
         </Tabs>
         <Divider />
         <List>
-          {state.tasks.map((obj) => {
+          {state.map((obj) => {
             return (
               <Item
                 key={obj.id}
-                text={obj.taskName}
-                completed={obj.taskComplete}
+                text={obj.name}
+                completed={obj.complete}
+                removeTask={removeTask}
+                id={obj.id}
               />
             );
           })}

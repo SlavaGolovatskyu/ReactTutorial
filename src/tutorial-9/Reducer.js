@@ -1,38 +1,19 @@
 export function reducer(state, action) {
   switch (action.type) {
-    case 'ON_CHANGE_INPUT':
-      return {
-        ...state,
-        taskName: action.payload,
-      };
-
-    case 'TASK_COMPLETE':
-      return {
-        ...state,
-        taskComplete: action.payload,
-      };
-
     case 'ADD_TASK':
-      let taskId = null;
+      const taskId = state.length ? state[state.length - 1].id + 1 : 1;
 
-      if (!state.tasks.length) {
-        taskId = 1;
-      } else {
-        taskId = state.tasks[state.tasks.length - 1].id + 1;
-      }
+      return [
+        ...state,
+        {
+          id: taskId,
+          name: action.payload.text,
+          complete: action.payload.complete,
+        },
+      ];
 
-      return {
-        taskName: '',
-        taskComplete: false,
-        tasks: [
-          ...state.tasks,
-          {
-            id: taskId,
-            taskName: action.payload.taskName,
-            taskComplete: action.payload.taskComplete,
-          },
-        ],
-      };
+    case 'REMOVE_TASK':
+      return state.filter((obj) => obj.id !== action.payload);
 
     default:
       return state;
