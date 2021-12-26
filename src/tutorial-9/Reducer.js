@@ -37,6 +37,17 @@ export function reducer(state, action) {
         };
       });
 
+    case 'EDIT_TASK_NAME':
+      return state.map((obj) => {
+        if (obj.id === action.payload.id) {
+          return {
+            ...obj,
+            name: action.payload.newName,
+          };
+        }
+        return obj;
+      });
+
     default:
       return state;
   }
